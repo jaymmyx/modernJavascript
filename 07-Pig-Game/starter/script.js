@@ -54,11 +54,11 @@ const resetCurrentScore = id => {
 holdBtn.addEventListener('click', () => {
   // Add current score to total score
   scores[activePlayer] += currentScore;
-  console.log(activePlayer);
   updateTotalScore(activePlayer);
   // Is score 100?
   if (scores[activePlayer] >= 100) {
     alert(`Player ${activePlayer} Wins!`);
+    newGame();
   } else {
     // Switch player;
     switchPlayer();
@@ -68,3 +68,23 @@ holdBtn.addEventListener('click', () => {
 const updateTotalScore = id => {
   document.querySelector(`#score--${id}`).textContent = scores[id];
 };
+
+// New Game
+
+const newGame = () => {
+  activePlayer = 0;
+  currentScore = 0;
+  resetCurrentScore(0);
+  resetCurrentScore(1);
+  scores.forEach((score, id) => {
+    scores[id] = 0;
+    document.querySelector(`#score--${id}`).textContent = scores[id];
+  });
+  player1Sec.classList.remove('player--active');
+  player0Sec.classList.add('player--active');
+  diceEl.classList.add('hidden');
+};
+
+newBtn.addEventListener('click', () => {
+  newGame();
+});
