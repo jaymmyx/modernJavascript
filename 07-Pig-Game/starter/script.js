@@ -15,6 +15,17 @@ diceEl.classList.add('hidden');
 let activePlayer = 0;
 let currentScore = 0;
 
+// Switch Player
+
+const switchPlayer = () => {
+  resetCurrentScore(0);
+  resetCurrentScore(1);
+  player0Sec.classList.toggle('player--active');
+  player1Sec.classList.toggle('player--active');
+  currentScore = 0;
+  activePlayer = activePlayer === 0 ? 1 : 0;
+};
+
 // Roll Dice Functionality
 rollBtn.addEventListener('click', () => {
   // Generate the dice
@@ -30,15 +41,30 @@ rollBtn.addEventListener('click', () => {
     document.querySelector(`#current--${activePlayer}`).textContent =
       currentScore;
   } else {
-    resetCurrentScore(0);
-    resetCurrentScore(1);
-    player0Sec.classList.toggle('player--active');
-    player1Sec.classList.toggle('player--active');
-    currentScore = 0;
-    activePlayer = activePlayer === 0 ? 1 : 0;
+    switchPlayer();
   }
 });
 
 const resetCurrentScore = id => {
   document.querySelector(`#current--${id}`).textContent = 0;
+};
+
+// Hold Dice Functionality
+
+holdBtn.addEventListener('click', () => {
+  // Add current score to total score
+  scores[activePlayer] += currentScore;
+  console.log(activePlayer);
+  updateTotalScore(activePlayer);
+  // Is score 100?
+  if (scores[activePlayer] >= 100) {
+    alert(`Player ${activePlayer} Wins!`);
+  } else {
+    // Switch player;
+    switchPlayer();
+  }
+});
+
+const updateTotalScore = id => {
+  document.querySelector(`#score--${id}`).textContent = scores[id];
 };
